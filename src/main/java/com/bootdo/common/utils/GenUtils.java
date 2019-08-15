@@ -169,6 +169,13 @@ public class GenUtils {
         }
     }
 
+    public static Configuration getMessageConfig() {
+        try {
+            return new PropertiesConfiguration("message.properties");
+        } catch (ConfigurationException e) {
+            throw new BDException("获取配置文件失败，", e);
+        }
+    }
     /**
      * 获取文件名
      */

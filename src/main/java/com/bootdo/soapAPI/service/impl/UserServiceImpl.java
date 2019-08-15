@@ -1,10 +1,13 @@
 package com.bootdo.soapAPI.service.impl;
 
+import com.bootdo.common.utils.GenUtils;
 import com.bootdo.soapAPI.service.IUserService;
 import com.bootdo.util.httpClient.HttpClientUtils;
 import net.sf.json.JSONObject;
+import org.apache.commons.configuration.Configuration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import javax.jws.WebService;
 
 
@@ -14,21 +17,27 @@ public class UserServiceImpl implements IUserService {
 
     private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
+    private Configuration config = GenUtils.getMessageConfig();
+
+
     @Override
     public String patientInfoRegister(String registerInfo) {
-        String url = "http://localhost:8087/kyee_hip/thirdParty/empi/hl7v3/registPatientInfo.next";
+        String url = (String) config.getProperty("empiurl")
+                + config.getProperty("empiurl.patientInfoRegister");
         return httpPost(url, registerInfo);
     }
 
     @Override
     public String patientInfoUpdate(String updateInfo) {
-        String url = "http://localhost:8087/kyee_hip/thirdParty/empi/hl7v3/updatePatientInfo.next";
+        String url = config.getProperty("empiurl").toString()
+                + config.getProperty("empiurl.patientInfoUpdate").toString();
         return httpPost(url, updateInfo);
     }
 
     @Override
     public String queryPatientInfo(String patientInfo) {
-        String url = "http://localhost:8087/kyee_hip/thirdParty/empi/hl7v3/queryPatientInfo.next";
+        String url = config.getProperty("empiurl").toString()
+                + config.getProperty("empiurl.queryPatientInfo").toString();
         return httpPost(url, patientInfo);
     }
 
