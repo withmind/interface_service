@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
 import javax.sql.DataSource;
@@ -17,8 +16,8 @@ import java.sql.SQLException;
 /**
  * Created by PrimaryKey on 17/2/4.
  */
-@SuppressWarnings("AlibabaRemoveCommentedCode")
-@Configuration
+//@SuppressWarnings("AlibabaRemoveCommentedCode")
+//@Configuration
 public class DruidDBConfig {
     private Logger logger = LoggerFactory.getLogger(DruidDBConfig.class);
     @Value("${spring.datasource.url}")
@@ -75,6 +74,15 @@ public class DruidDBConfig {
     @Value("{spring.datasource.connectionProperties}")
     private String connectionProperties;
 
+    @Value("{spring.datasource.removeAbandoned}")
+    private boolean removeAbandoned;
+
+    @Value("{spring.datasource.removeAbandonedTimeout}")
+    private int removeAbandonedTimeout;
+
+    @Value("{spring.datasource.logAbandoned}")
+    private boolean logAbandoned;
+
     @Bean(initMethod = "init", destroyMethod = "close")   //声明其为Bean实例
     @Primary  //在同样的DataSource中，首先使用被标注的DataSource
     public DataSource dataSource() {
@@ -98,6 +106,9 @@ public class DruidDBConfig {
         datasource.setTestOnReturn(testOnReturn);
         datasource.setPoolPreparedStatements(poolPreparedStatements);
         datasource.setMaxPoolPreparedStatementPerConnectionSize(maxPoolPreparedStatementPerConnectionSize);
+        datasource.setRemoveAbandoned(removeAbandoned);
+        datasource.setRemoveAbandonedTimeout(removeAbandonedTimeout);
+        datasource.setLogAbandoned(logAbandoned);
         try {
             datasource.setFilters(filters);
         } catch (SQLException e) {

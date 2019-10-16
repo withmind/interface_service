@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bootdo.common.dao.BasHospitalDao">
+
+	<select id="queryHospital" resultType="java.util.HashMap">
+		SELECT ID,
+		  HOSNUM,
+ 		 HOSNAME,
+		  HOSNAME_SHORT,
+ 		 CREATE_DATE,
+ 		 CREATE__NAME,
+ 		 CREATE_PERSON,
+ 		 UPDATE_DATE,
+ 		 UPDATE_PERSON
+		FROM bas_hospitals
+		WHERE hosnum =  #{hospitalId}
+	</select>
+
+
+</mapper>

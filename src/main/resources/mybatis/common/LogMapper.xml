@@ -72,6 +72,42 @@
 			#{gmtCreate}
 		)
 	</insert>
+
+
+	<insert id="saveInterfaceRecord" parameterType="com.bootdo.common.domain.RequestLogDO" useGeneratedKeys="true" keyProperty="id">
+		insert into m_interface_request_monitor
+		(
+		`SERVER_IP`,
+		`VISIT_IP`,
+		`HOSPITAL_NUM`,
+		`HOSPITAL_NAME`,
+		`URI`,
+		`atcion`,
+		`PARAMETER`,
+		`SUCCESS_FLG`,
+		`START_TIME`,
+		`END_TIME`,
+		`START_TIME_MILLIS`,
+		`END_TIME_MILLIS`,
+		`USE_MILLIS`
+		)
+		values
+		(
+		#{SERVER_IP},
+		#{VISIT_IP},
+		#{HOSPITAL_NUM},
+		#{HOSPITAL_NAME},
+		#{URI},
+		#{atcion},
+		#{PARAMETER},
+		#{SUCCESS_FLG},
+		#{START_TIME},
+		#{END_TIME},
+		#{START_TIME_MILLIS},
+		#{END_TIME_MILLIS},
+		#{USE_MILLIS}
+		)
+	</insert>
 	 
 	<update id="update" parameterType="com.bootdo.common.domain.LogDO">
 		update sys_log 

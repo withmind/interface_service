@@ -1,15 +1,16 @@
 package com.bootdo.common.service.impl;
 
-import java.util.List;
+import com.bootdo.common.dao.LogDao;
+import com.bootdo.common.domain.LogDO;
+import com.bootdo.common.domain.PageDO;
+import com.bootdo.common.domain.RequestLogDO;
+import com.bootdo.common.service.LogService;
+import com.bootdo.common.utils.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import com.bootdo.common.dao.LogDao;
-import com.bootdo.common.domain.LogDO;
-import com.bootdo.common.domain.PageDO;
-import com.bootdo.common.service.LogService;
-import com.bootdo.common.utils.Query;
+import java.util.List;
 
 @Service
 public class LogServiceImpl implements LogService {
@@ -20,6 +21,12 @@ public class LogServiceImpl implements LogService {
 	@Override
 	public void save(LogDO logDO) {
 		 logMapper.save(logDO);
+	}
+
+	@Async
+	@Override
+	public void saveInterfaceRecord(RequestLogDO logDO) {
+		logMapper.saveInterfaceRecord(logDO);
 	}
 
 	@Override

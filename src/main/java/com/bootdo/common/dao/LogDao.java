@@ -1,11 +1,11 @@
 package com.bootdo.common.dao;
 
 import com.bootdo.common.domain.LogDO;
+import com.bootdo.common.domain.RequestLogDO;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 import java.util.Map;
-
-import org.apache.ibatis.annotations.Mapper;
 
 /**
  * 系统日志
@@ -29,4 +29,6 @@ public interface LogDao {
 	int remove(Long id);
 	
 	int batchRemove(Long[] ids);
+
+	int saveInterfaceRecord(RequestLogDO log);
 }
