@@ -83,50 +83,54 @@ public class MybatisPlusConfig {
         String[] dbCodes = usedb.split(",");
 
         for(String dbCode:dbCodes){
-            DruidDataSource tempDataSource = DruidDataSourceBuilder.create().build(env,"spring.datasource.druid."+dbCode+"");
+            try{
+                DruidDataSource tempDataSource = DruidDataSourceBuilder.create().build(env,"spring.datasource.druid."+dbCode+"");
 
-            String dbUrl = env.getProperty("spring.datasource.druid."+dbCode+".url");
-            String username = env.getProperty("spring.datasource.druid."+dbCode+".username");
-            String password = env.getProperty("spring.datasource.druid."+dbCode+".password");
-            String driverClassName = env.getProperty("spring.datasource.druid."+dbCode+".driver-class-name");
+                String dbUrl = env.getProperty("spring.datasource.druid."+dbCode+".url");
+                String username = env.getProperty("spring.datasource.druid."+dbCode+".username");
+                String password = env.getProperty("spring.datasource.druid."+dbCode+".password");
+                String driverClassName = env.getProperty("spring.datasource.druid."+dbCode+".driver-class-name");
 
-            int initialSize = Integer.parseInt(env.getProperty("spring.datasource.druid."+dbCode+".initialSize"));
-            int minIdle = Integer.parseInt(env.getProperty("spring.datasource.druid."+dbCode+".minIdle"));
-            int maxActive = Integer.parseInt(env.getProperty("spring.datasource.druid."+dbCode+".maxActive"));
+                int initialSize = Integer.parseInt(env.getProperty("spring.datasource.druid."+dbCode+".initialSize"));
+                int minIdle = Integer.parseInt(env.getProperty("spring.datasource.druid."+dbCode+".minIdle"));
+                int maxActive = Integer.parseInt(env.getProperty("spring.datasource.druid."+dbCode+".maxActive"));
 
 
-            boolean removeAbandoned = Boolean.parseBoolean(env.getProperty("spring.datasource.druid."+dbCode+".removeAbandoned"));
-            int removeAbandonedTimeout = Integer.parseInt(env.getProperty("spring.datasource.druid."+dbCode+".removeAbandonedTimeout"));
-            boolean logAbandoned = Boolean.parseBoolean(env.getProperty("spring.datasource.druid."+dbCode+".logAbandoned"));
+                boolean removeAbandoned = Boolean.parseBoolean(env.getProperty("spring.datasource.druid."+dbCode+".removeAbandoned"));
+                int removeAbandonedTimeout = Integer.parseInt(env.getProperty("spring.datasource.druid."+dbCode+".removeAbandonedTimeout"));
+                boolean logAbandoned = Boolean.parseBoolean(env.getProperty("spring.datasource.druid."+dbCode+".logAbandoned"));
 
-            //int maxWait = env.getProperty("spring.datasource.druid."+dbCode+".initialSize");
+                //int maxWait = env.getProperty("spring.datasource.druid."+dbCode+".initialSize");
 
-            tempDataSource.setUrl(dbUrl);
-            tempDataSource.setUsername(username);
-            tempDataSource.setPassword(password);
-            tempDataSource.setDriverClassName(driverClassName);
+                tempDataSource.setUrl(dbUrl);
+                tempDataSource.setUsername(username);
+                tempDataSource.setPassword(password);
+                tempDataSource.setDriverClassName(driverClassName);
 
-            //configuration
-            tempDataSource.setInitialSize(initialSize);
-            tempDataSource.setMinIdle(minIdle);
-            tempDataSource.setMaxActive(maxActive);
+                //configuration
+                tempDataSource.setInitialSize(initialSize);
+                tempDataSource.setMinIdle(minIdle);
+                tempDataSource.setMaxActive(maxActive);
 
-            tempDataSource.setRemoveAbandoned(removeAbandoned);
-            tempDataSource.setRemoveAbandonedTimeout(removeAbandonedTimeout);
-            tempDataSource.setLogAbandoned(logAbandoned);
-            /*tempDataSource.setMaxWait(maxWait);
-            tempDataSource.setTimeBetweenEvictionRunsMillis(timeBetweenEvictionRunsMillis);
-            tempDataSource.setMinEvictableIdleTimeMillis(minEvictableIdleTimeMillis);
-            tempDataSource.setValidationQuery(validationQuery);
-            tempDataSource.setTestWhileIdle(testWhileIdle);
-            tempDataSource.setTestOnBorrow(testOnBorrow);
-            tempDataSource.setTestOnReturn(testOnReturn);
-            tempDataSource.setPoolPreparedStatements(poolPreparedStatements);
-            tempDataSource.setMaxPoolPreparedStatementPerConnectionSize(maxPoolPreparedStatementPerConnectionSize);*/
+                tempDataSource.setRemoveAbandoned(removeAbandoned);
+                tempDataSource.setRemoveAbandonedTimeout(removeAbandonedTimeout);
+                tempDataSource.setLogAbandoned(logAbandoned);
+                /*tempDataSource.setMaxWait(maxWait);
+                tempDataSource.setTimeBetweenEvictionRunsMillis(timeBetweenEvictionRunsMillis);
+                tempDataSource.setMinEvictableIdleTimeMillis(minEvictableIdleTimeMillis);
+                tempDataSource.setValidationQuery(validationQuery);
+                tempDataSource.setTestWhileIdle(testWhileIdle);
+                tempDataSource.setTestOnBorrow(testOnBorrow);
+                tempDataSource.setTestOnReturn(testOnReturn);
+                tempDataSource.setPoolPreparedStatements(poolPreparedStatements);
+                tempDataSource.setMaxPoolPreparedStatementPerConnectionSize(maxPoolPreparedStatementPerConnectionSize);*/
 
-            targetDataSources.put(dbCode, tempDataSource );
-            if("master".equals(dbCode)){
-                dynamicDataSource.setDefaultTargetDataSource(tempDataSource);
+                targetDataSources.put(dbCode, tempDataSource );
+                if("master".equals(dbCode)){
+                    dynamicDataSource.setDefaultTargetDataSource(tempDataSource);
+                }
+            }catch(Throwable e){
+                e.printStackTrace();
             }
         }
         dynamicDataSource.setTargetDataSources(targetDataSources);
